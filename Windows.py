@@ -15,6 +15,8 @@ class BaseWindow(QWidget):
         self.setWindowTitle(title)
 
     def locate_calc(self, locate, *size):
+        if type(locate) == type(tuple) or type(locate) == type(list):
+            return locate
         width = GetSystemMetrics(0)
         height = GetSystemMetrics(1)
         locates = {"в центр": self._cordsCenter,
