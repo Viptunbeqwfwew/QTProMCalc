@@ -20,14 +20,14 @@ class BaseWindow(QWidget):
         width = GetSystemMetrics(0)
         height = GetSystemMetrics(1)
         locates = {}
-        locates_rus = {"в центр": self._cordsCenter,
+        locates_rus = {"центр": self._cordsCenter,
                        "сверху": self._cordsTop,
-                       "снизу": self._cordsBelow,
+                       "снизу": self._cordsBottom,
                        "справа": self._cordsLeft,
                        "слева": self._cordsRight}
         locates_eng = {"center": self._cordsCenter,
                        "top": self._cordsTop,
-                       "below": self._cordsBelow,
+                       "bottom": self._cordsBottom,
                        "left": self._cordsLeft,
                        "right": self._cordsRight}
         locates.update(locates_eng), locates.update(locates_rus)
@@ -37,7 +37,7 @@ class BaseWindow(QWidget):
             return 0, 0
         return func(width, height, *size)
 
-    def _cordsBelow(self, w, h, *s):
+    def _cordsBottom(self, w, h, *s):
         return (w - s[0]) // 2, h - s[1]
 
     def _cordsTop(self, w, h, *s):
