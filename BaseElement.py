@@ -48,6 +48,7 @@ class BaseWindow(QWidget, BaseUnit):
         super().__init__()
         self.initUI(title, kwargs.get("size"), kwargs.get("locate"))
         self.initButton()
+        self.initWindows()
 
     def initUI(self, title, size, locate):
         if size is None or len(size) != 2:
@@ -64,6 +65,9 @@ class BaseWindow(QWidget, BaseUnit):
     def size(self):
         """size() возвращает кортедж размера ({ширина}, {высота})"""
         return super().size().width(), super().size().height()
+
+    def initWindows(self):
+        pass
 
 
 class BaseButton(QPushButton, BaseUnit):
@@ -90,17 +94,25 @@ class BaseWindowError(BaseWindow):
         self.setWindowFlag(Qt.Dialog)
 
     def initButton(self):
-        btn = BaseButton(self, "Ok", locate=[200, 260], size=[90, 30])
-        btn.clicked.connect(exit, 1)
+        self.btn = BaseButton(self, "Ok", locate=(BasePoint(self.size()[0], self.size()[1]) - [100, 40]).getTuple(),
+                              size=[90, 30])
+        self.btn.clicked.connect(exit, 1)
+
+    def setFunctionError(self, r):
+        self.btn.clicked.disconnect()
+        self.btn.clicked.connect(r)
+
 
 class BasePoint(BaseUnit):
-    def __init__(self, object, x, y):
+    def __init__(self, x, y, object=None):
         self.x = x
         self.y = y
         self.object = object
 
     def __add__(self, other):
-        return BasePoint(self.x + other.x, self.y + other.y)
+        if type(other) == type(self):
+            return BasePoint(self.x + other.x, self.y + other.y)
+        return BasePoint(self.x + other[0], self.y + other[1])
 
     def __neg__(self):
         return BasePoint(-self.x, -self.y)
@@ -109,9 +121,20 @@ class BasePoint(BaseUnit):
         return (self.x ^ 2 + self.y ^ 2) ^ 0.5
 
     def __sub__(self, other):
-        return BasePoint(self.x - other.x, self.y - other.y)
+        if type(other) == type(self):
+            return BasePoint(self.x - other.x, self.y - other.y)
+        return BasePoint(self.x - other[0], self.y - other[1])
 
     def __mul__(self, other):
         if type(other) == type(self):
             return BasePoint(self.x * other.x, self.y * other.y)
         return BasePoint(self.x * other[0], self.y * other[1])
+
+    def __repr__(self):
+        return f"x: {self.x}, y: {self.y}"
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+    def getTuple(self):
+        return self.x, self.y
