@@ -22,7 +22,7 @@ class MainWindow(BaseWindow):
 
 def main():
     app = QApplication(sys.argv)
-    form = MainWindow("Входная точка", size=[300, 300], locate="центр")
+    form = MainWindow("Входная точка", size=[400, 300], locate="центр")
     form.show()
     sys.exit(app.exec())
 

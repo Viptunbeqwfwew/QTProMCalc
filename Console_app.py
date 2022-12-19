@@ -1,21 +1,4 @@
-import socket
 import sys
-
-
-class P2P:
-    def __init__(self, port: int, max_connected: int, bl):
-        self.port = port
-        self.server_socket = socket.socket(socket.AF_INET)
-        self.client_socket = socket.socket(socket.AF_INET)
-        self.server_socket.settimeout(2)
-        self.server_socket.bind(("localhost", port))
-        self.server_socket.listen(max_connected)
-        self.server_socket.recv(1024)
-        self.client_socket.recv(1024)
-        self.black_list = bl
-
-    def sendMassage(self, ip: str, port: str, msg: str):
-        pass
 
 
 class HelpArg:
@@ -70,4 +53,6 @@ def main():
 
 
 if __name__ == "__main__":
+    while True:
+        break
     main()
